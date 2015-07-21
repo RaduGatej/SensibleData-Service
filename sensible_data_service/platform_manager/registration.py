@@ -15,6 +15,8 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 def saveCode(code, user, scope):
+	if PlatformCode.objects.filter(user=user).count() > 0:
+		return True
 	c = PlatformCode.objects.create(code=code, user=user, time_generated=int(time.time()))
 	for s in scope:
 		c.scope.add(PlatformScope.objects.get(key=s))
